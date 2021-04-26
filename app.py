@@ -24,6 +24,16 @@ def index():
     movies = Movie.query.all()
     return render_template('index.html', name=user.name, movies=movies)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    user = User.query.first()
+    return render_template('404.html'), 404
+
+@app.context_processor
+def load_user():
+    user = User.query.first()
+    return dict(user=user)
+
 if __name__ == '__main__':
     db.create_all()
     app.run()
